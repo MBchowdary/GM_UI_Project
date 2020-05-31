@@ -15,13 +15,13 @@
         android:background="@drawable/list_view_selector"
         android:padding="4dp">
 
-    <TextView
-        android:id="@+id/top_tag_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:text="Line1"
-        android:textSize="20sp" />
+        <TextView
+            android:id="@+id/top_album_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="Line1"
+            android:textSize="20sp" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

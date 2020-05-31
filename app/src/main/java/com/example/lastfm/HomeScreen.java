@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.lastfm.ui.TopAlbumsListFragment;
 import com.example.lastfm.ui.TopTagListFragment;
 
 public class HomeScreen  extends AppCompatActivity {
@@ -26,7 +27,8 @@ public class HomeScreen  extends AppCompatActivity {
 
     private void attachFragment(){
         // Create a fragment instance
-        TopTagListFragment topTagListFragment = new TopTagListFragment();
+        //TopTagListFragment topTagListFragment = new TopTagListFragment();
+        TopAlbumsListFragment topTagListFragment = new TopAlbumsListFragment();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

@@ -9,46 +9,45 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lastfm.R;
-import com.example.lastfm.topTagsModel.TagItem;
+import com.example.lastfm.topAlbumsModel.AlbumItem;
 
 import java.util.List;
 
-public class ItemTopTagsAdapter extends RecyclerView.Adapter<ItemTopTagsAdapter.ItemViewHolder> {
+public class ItemTopAlbumsAdapter extends RecyclerView.Adapter<ItemTopAlbumsAdapter.ItemViewHolder> {
 
     private static final String TAG = "ABC";
-    private List<TagItem> mTagItems;
-    private OnItemClickListener mOnItemClickListener;
-    private static SparseBooleanArray sSelectedItems = new SparseBooleanArray();;
+    private List<AlbumItem> mAlbumItems;
+    private ItemTopAlbumsAdapter.OnItemClickListener mOnItemClickListener;
+    private static SparseBooleanArray sSelectedItems = new SparseBooleanArray();
+    ;
 
     public interface OnItemClickListener {
         public void onItemClicked(int position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        Log.i(TAG,"setOnItemClickListener() ");
+    public void setOnItemClickListener(ItemTopAlbumsAdapter.OnItemClickListener onItemClickListener) {
+        Log.i(TAG, "setOnItemClickListener() ");
         mOnItemClickListener = onItemClickListener;
     }
 
-    public ItemTopTagsAdapter(List<TagItem> tagItems) {
-        mTagItems = tagItems;
+    public ItemTopAlbumsAdapter(List<AlbumItem> albumItems) {
+        mAlbumItems = albumItems;
     }
 
-    public void setTagItems(List<TagItem> tagItems) {
-        mTagItems = tagItems;
+    public void setAlbumItems(List<AlbumItem> albumItems) {
+        mAlbumItems = albumItems;
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTopTag;
+        public TextView mTopAlbum;
         public RelativeLayout mBackground;
 
-        public ItemViewHolder(@NonNull final View itemView, final OnItemClickListener listener) {
+        public ItemViewHolder(@NonNull final View itemView, final ItemTopAlbumsAdapter.OnItemClickListener listener) {
             super(itemView);
-            mTopTag = itemView.findViewById(R.id.top_tag_view);
+            mTopAlbum = itemView.findViewById(R.id.top_album_view);
             mBackground = itemView.findViewById(R.id.list_item_background);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -57,11 +56,11 @@ public class ItemTopTagsAdapter extends RecyclerView.Adapter<ItemTopTagsAdapter.
                     if (sSelectedItems.get(getAdapterPosition(), false)) {
                         sSelectedItems.delete(getAdapterPosition());
                         mBackground.setSelected(false);
-                        Log.i(TAG," mCardView.setSelected(false) ");
+                        Log.i(TAG, " mCardView.setSelected(false) ");
                     } else {
                         sSelectedItems.put(getAdapterPosition(), true);
                         mBackground.setSelected(true);
-                        Log.i(TAG," mCardView.setSelected(true) ");
+                        Log.i(TAG, " mCardView.setSelected(true) ");
                     }
                     if (listener != null) {
                         final int position = getAdapterPosition();
@@ -77,20 +76,22 @@ public class ItemTopTagsAdapter extends RecyclerView.Adapter<ItemTopTagsAdapter.
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tag_list_item, parent, false);
-        ItemViewHolder itemViewHolder = new ItemViewHolder(view, mOnItemClickListener);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.albums_list_item, parent, false);
+        ItemViewHolder itemViewHolder = new ItemTopAlbumsAdapter.ItemViewHolder(view, mOnItemClickListener);
         return itemViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder itemViewHolder, int position) {
-        TagItem tagItem = mTagItems.get(position);
-        itemViewHolder.mTopTag.setText(tagItem.getName());
+    public void onBindViewHolder(@NonNull ItemTopAlbumsAdapter.ItemViewHolder itemViewHolder, int position) {
+        Log.i(TAG,"mAlbumItems length: "+mAlbumItems.size()+"Position: "+position);
+        AlbumItem albumItem = mAlbumItems.get(position);
+        Log.i(TAG,"albumItem.getArtist().getName(): "+albumItem.getArtist().getName());
+        itemViewHolder.mTopAlbum.setText(albumItem.getArtist().getName());
         itemViewHolder.mBackground.setSelected(sSelectedItems.get(position, false));
     }
 
     @Override
     public int getItemCount() {
-        return mTagItems.size();
+        return mAlbumItems.size();
     }
 }
