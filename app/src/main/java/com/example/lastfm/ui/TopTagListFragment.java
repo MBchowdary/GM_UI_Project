@@ -35,8 +35,11 @@ public class TopTagListFragment extends Fragment {
     private List<TagItem> mTopTagItems;
     private static final String TAG = "ABC";
 
+    private OnFragmentInteractionListener mOnFragmentInteractionListener;
+
     public TopTagListFragment(){
         mTopTagItems = new ArrayList<>();
+        mOnFragmentInteractionListener = null;
     }
 
     @Override
@@ -91,9 +94,18 @@ public class TopTagListFragment extends Fragment {
                 // Handel onclick
                 TagItem tagItem = mTopTagItems.get(position);
                 Log.i(TAG,"List view item clicked "+tagItem.getName()+" Position: "+position);
-                //mRecyclerAdapter.notifyItemChanged(position);
+                if(mOnFragmentInteractionListener != null) {
+                    mOnFragmentInteractionListener.onFragmentInteraction(tagItem.getName());
+                }
+
+                // Send Tag to Albums fragment for API query
+                final Bundle bundle = new Bundle();
+                bundle.putString("tag", tagItem.getName());
+
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-                navController.navigate(R.id.action_toptags_to_topalbums);
+                navController.navigate(R.id.action_toptags_to_topalbums,bundle);
+
+
             }
         });
     }
@@ -113,4 +125,15 @@ public class TopTagListFragment extends Fragment {
         });
     }
 
+    public interface OnFragmentInteractionListener {
+        //To do//
+        void onFragmentInteraction(String tag);
+    }
+
+    public void setOnFragmentInteractionListener(OnFragmentInteractionListener onFragmentInteractionListener){
+        if(mOnFragmentInteractionListener == null){
+            mOnFragmentInteractionListener = onFragmentInteractionListener;
+            Log.i(TAG,"setOnFragmentInteractionListener set ");
+        }
+    }
 }

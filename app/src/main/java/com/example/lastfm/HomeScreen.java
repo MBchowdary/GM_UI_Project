@@ -6,13 +6,12 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.Fragment;
 
-import com.example.lastfm.ui.TopAlbumsListFragment;
+import com.example.lastfm.ui.TopTagListFragment;
 import com.google.android.material.navigation.NavigationView;
 
-public class HomeScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TopAlbumsListFragment.OnFragmentInteractionListener {
+public class HomeScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TopTagListFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "ABC";
     @Override
@@ -21,6 +20,15 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         setContentView(R.layout.home_screen);
     }
 
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        Log.i(TAG,"onAttachFragment() ");
+        if (fragment instanceof TopTagListFragment) {
+            TopTagListFragment topTagListFragment = (TopTagListFragment) fragment;
+            topTagListFragment.setOnFragmentInteractionListener(this);
+            Log.i(TAG,"onAttachFragment() listener set ");
+        }
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -29,6 +37,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
     @Override
     public void onFragmentInteraction(String tag) {
-
+    Log.i(TAG,"onFragmentInteraction: "+tag);
     }
+
 }

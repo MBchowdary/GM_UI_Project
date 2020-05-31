@@ -31,10 +31,12 @@ public class TopAlbumsListFragment extends Fragment {
     private ItemTopAlbumsAdapter mRecyclerAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<AlbumItem> mAlbumItems;
+    private String mTag;
     private static final String TAG = "ABC";
 
     public TopAlbumsListFragment() {
         mAlbumItems = new ArrayList<>();
+        mTag = null;
     }
 
     @Override
@@ -53,7 +55,7 @@ public class TopAlbumsListFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Log.i(TAG, "onActivityCreated() ");
         final AlbumsListViewModel albumsListViewModel = ViewModelProviders.of(getActivity()).get(AlbumsListViewModel.class);
-        observeViewModel(albumsListViewModel, "disco");
+        observeViewModel(albumsListViewModel, mTag);
     }
 
     @Nullable
@@ -67,8 +69,10 @@ public class TopAlbumsListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // We are getting arguments from the tags fragment key is Tag defined in Nav component
+        mTag = getArguments().getString("tag");
+        Log.i(TAG, "onViewCreated() "+"mTag: "+mTag);
         // Build recycler view
-        Log.i(TAG, "onViewCreated() ");
         buildRecyclerView(view);
     }
 
@@ -97,7 +101,6 @@ public class TopAlbumsListFragment extends Fragment {
                 // Handel onclick
                 AlbumItem albumItem = mAlbumItems.get(position);
                 Log.i(TAG, "List view item clicked " + albumItem.getName() + " Position: " + position);
-                mRecyclerAdapter.notifyItemChanged(position);
             }
         });
     }
@@ -116,10 +119,4 @@ public class TopAlbumsListFragment extends Fragment {
             }
         });
     }
-
-    public interface OnFragmentInteractionListener {
-        //To do//
-        void onFragmentInteraction(String tag);
-    }
-
 }

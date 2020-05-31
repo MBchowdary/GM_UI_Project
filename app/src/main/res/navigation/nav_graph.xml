@@ -23,6 +23,11 @@
         <action
             android:id="@+id/action_topalbums_to_toptags2"
             app:destination="@id/toptags" />
+
+        <argument
+            android:name="tag"
+            android:defaultValue="disco"
+            app:argType="string" />
     </fragment>
 
 </navigation>

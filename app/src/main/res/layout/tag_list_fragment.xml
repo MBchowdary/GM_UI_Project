@@ -5,10 +5,19 @@
     android:id="@+id/tag_list_layout"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="Top Tags"
+        android:background="#a4c639"
+        android:gravity="center_vertical" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/top_tags_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
         android:padding="4dp"
         android:background="@android:color/darker_gray"
         android:scrollbars="vertical"/>
