@@ -5,11 +5,11 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.lastfm.utils.Utils;
 import com.example.lastfm.api.TopAlbumsApi;
 import com.example.lastfm.topAlbumsModel.AlbumItem;
 import com.example.lastfm.topAlbumsModel.Albums;
 import com.example.lastfm.topAlbumsModel.TopAlbumsResponse;
+import com.example.lastfm.utils.Utils;
 
 import java.util.List;
 

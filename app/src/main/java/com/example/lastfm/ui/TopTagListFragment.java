@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -71,35 +73,6 @@ public class TopTagListFragment extends Fragment {
         Log.i(TAG,"onViewCreated() ");
         buildRecyclerView(view);
     }
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
 
     private void buildRecyclerView(View view){
         Log.i(TAG,"buildRecyclerView() ");
@@ -118,7 +91,9 @@ public class TopTagListFragment extends Fragment {
                 // Handel onclick
                 TagItem tagItem = mTopTagItems.get(position);
                 Log.i(TAG,"List view item clicked "+tagItem.getName()+" Position: "+position);
-                mRecyclerAdapter.notifyItemChanged(position);
+                //mRecyclerAdapter.notifyItemChanged(position);
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                navController.navigate(R.id.action_toptags_to_topalbums);
             }
         });
     }

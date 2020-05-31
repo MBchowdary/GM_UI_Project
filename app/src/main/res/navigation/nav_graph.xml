@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/toptags">
+
+    <fragment
+        android:id="@+id/toptags"
+        android:name="com.example.lastfm.ui.TopTagListFragment"
+        android:label="fragment_first"
+        tools:layout="@layout/tag_list_fragment" >
+        <action
+            android:id="@+id/action_toptags_to_topalbums"
+            app:destination="@id/topalbums" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/topalbums"
+        android:name="com.example.lastfm.ui.TopAlbumsListFragment"
+        android:label="fragment_second"
+        tools:layout="@layout/albums_list_fragment" >
+        <action
+            android:id="@+id/action_topalbums_to_toptags2"
+            app:destination="@id/toptags" />
+    </fragment>
+
+</navigation>

@@ -7,9 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.lastfm.repo.TopAlbumsRepository;
-import com.example.lastfm.repo.TopTagsRepository;
 import com.example.lastfm.topAlbumsModel.AlbumItem;
-import com.example.lastfm.topTagsModel.TagItem;
 
 import java.util.List;
 

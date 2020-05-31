@@ -73,33 +73,11 @@ public class TopAlbumsListFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
+        }
     }
 
     private void buildRecyclerView(View view) {
@@ -137,6 +115,11 @@ public class TopAlbumsListFragment extends Fragment {
                 }
             }
         });
+    }
+
+    public interface OnFragmentInteractionListener {
+        //To do//
+        void onFragmentInteraction(String tag);
     }
 
 }
