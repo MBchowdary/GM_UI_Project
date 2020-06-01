@@ -18,9 +18,12 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.lastfm.FragmentCommunicator;
 import com.example.lastfm.R;
+import com.example.lastfm.adapter.ItemTopAlbumsAdapter;
 import com.example.lastfm.adapter.ItemTopTagsAdapter;
 import com.example.lastfm.topTagsModel.TagItem;
+import com.example.lastfm.utils.Utils;
 import com.example.lastfm.viewModel.TagListViewModel;
 
 import java.util.ArrayList;
@@ -33,7 +36,9 @@ public class TopTagListFragment extends Fragment {
     private ItemTopTagsAdapter mRecyclerAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<TagItem> mTopTagItems;
-    private static final String TAG = "ABC";
+    private static final String TAG = "TopTagListFragment";
+    // Will be used only in landscape mode
+    private static FragmentCommunicator sFragmentCommunicator;
 
     private OnFragmentInteractionListener mOnFragmentInteractionListener;
 
@@ -98,14 +103,22 @@ public class TopTagListFragment extends Fragment {
                     mOnFragmentInteractionListener.onFragmentInteraction(tagItem.getName());
                 }
 
-                // Send Tag to Albums fragment for API query
-                final Bundle bundle = new Bundle();
-                bundle.putString("tag", tagItem.getName());
+                if(Utils.isLandscape){
+                    Log.i(TAG,"sFragmentCommunicator Called !!");
+                    if(sFragmentCommunicator != null) {
+                        Log.i(TAG,"sFragmentCommunicator Called !!"+tagItem.getName());
+                        sFragmentCommunicator.setTag(tagItem.getName());
+                    }
+                }else {
+                    // Send Tag to Albums fragment for API query
+                    final Bundle bundle = new Bundle();
+                    bundle.putString("tag", tagItem.getName());
 
-                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-                navController.navigate(R.id.action_toptags_to_topalbums,bundle);
-
-
+                    NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                    navController.navigate(R.id.action_toptags_to_topalbums, bundle);
+                }
+                // Clear sub-element [Albums ]selection when user changes selection on  Item list [Tags]
+                Utils.clearState =  true;
             }
         });
     }
@@ -135,5 +148,9 @@ public class TopTagListFragment extends Fragment {
             mOnFragmentInteractionListener = onFragmentInteractionListener;
             Log.i(TAG,"setOnFragmentInteractionListener set ");
         }
+    }
+
+    public void setFragmentCommunicator(FragmentCommunicator fragmentCommunicator){
+        sFragmentCommunicator = fragmentCommunicator;
     }
 }

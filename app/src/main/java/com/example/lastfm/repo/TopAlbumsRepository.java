@@ -22,7 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class TopAlbumsRepository {
     private TopAlbumsApi mTopAlbumsApi;
     private static TopAlbumsRepository sTopAlbumsRepository;
-    private static final String TAG = "ABC";
+    private static final String TAG = "TopAlbumsRepository";
 
     private TopAlbumsRepository() {
         Retrofit retrofit = new Retrofit.Builder()

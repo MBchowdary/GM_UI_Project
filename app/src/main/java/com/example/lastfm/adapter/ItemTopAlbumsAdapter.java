@@ -13,16 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lastfm.R;
 import com.example.lastfm.topAlbumsModel.AlbumItem;
+import com.example.lastfm.utils.Utils;
 
 import java.util.List;
 
 public class ItemTopAlbumsAdapter extends RecyclerView.Adapter<ItemTopAlbumsAdapter.ItemViewHolder> {
 
-    private static final String TAG = "ABC";
+    private static final String TAG = "ItemTopAlbumsAdapter";
     private List<AlbumItem> mAlbumItems;
     private ItemTopAlbumsAdapter.OnItemClickListener mOnItemClickListener;
     private static SparseBooleanArray sSelectedItems = new SparseBooleanArray();
-    ;
 
     public interface OnItemClickListener {
         public void onItemClicked(int position);
@@ -87,6 +87,10 @@ public class ItemTopAlbumsAdapter extends RecyclerView.Adapter<ItemTopAlbumsAdap
         AlbumItem albumItem = mAlbumItems.get(position);
         Log.i(TAG,"albumItem.getArtist().getName(): "+albumItem.getArtist().getName());
         itemViewHolder.mTopAlbum.setText(albumItem.getArtist().getName());
+        if(Utils.clearState){
+            sSelectedItems.clear();
+            Utils.clearState = false;
+        }
         itemViewHolder.mBackground.setSelected(sSelectedItems.get(position, false));
     }
 
@@ -94,4 +98,5 @@ public class ItemTopAlbumsAdapter extends RecyclerView.Adapter<ItemTopAlbumsAdap
     public int getItemCount() {
         return mAlbumItems.size();
     }
+
 }

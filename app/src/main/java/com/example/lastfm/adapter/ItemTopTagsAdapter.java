@@ -9,8 +9,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lastfm.R;
@@ -20,7 +18,7 @@ import java.util.List;
 
 public class ItemTopTagsAdapter extends RecyclerView.Adapter<ItemTopTagsAdapter.ItemViewHolder> {
 
-    private static final String TAG = "ABC";
+    private static final String TAG = "ItemTopTagsAdapter";
     private List<TagItem> mTagItems;
     private OnItemClickListener mOnItemClickListener;
     private static SparseBooleanArray sSelectedItems = new SparseBooleanArray();;

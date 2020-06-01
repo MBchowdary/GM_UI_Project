@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class TopTagsRepository {
     private TopTagsApi mTopTagsApi;
     private static TopTagsRepository sTopTagsRepository;
-    private static final String TAG = "ABC";
+    private static final String TAG = "TopTagsRepository";
 
     private TopTagsRepository() {
         Retrofit retrofit = new Retrofit.Builder()

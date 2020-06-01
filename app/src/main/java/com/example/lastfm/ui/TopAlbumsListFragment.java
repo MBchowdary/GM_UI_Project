@@ -16,15 +16,17 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.lastfm.FragmentCommunicator;
 import com.example.lastfm.R;
 import com.example.lastfm.adapter.ItemTopAlbumsAdapter;
 import com.example.lastfm.topAlbumsModel.AlbumItem;
+import com.example.lastfm.utils.Utils;
 import com.example.lastfm.viewModel.AlbumsListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TopAlbumsListFragment extends Fragment {
+public class TopAlbumsListFragment extends Fragment implements FragmentCommunicator {
 
     private Context mContext;
     private RecyclerView mRecyclerView;
@@ -32,7 +34,7 @@ public class TopAlbumsListFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private List<AlbumItem> mAlbumItems;
     private String mTag;
-    private static final String TAG = "ABC";
+    private static final String TAG = "TopAlbumsListFragment";
 
     public TopAlbumsListFragment() {
         mAlbumItems = new ArrayList<>();
@@ -54,10 +56,13 @@ public class TopAlbumsListFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.i(TAG, "onActivityCreated() ");
+        getAlbumsList();
+    }
+
+    private void getAlbumsList(){
         final AlbumsListViewModel albumsListViewModel = ViewModelProviders.of(getActivity()).get(AlbumsListViewModel.class);
         observeViewModel(albumsListViewModel, mTag);
     }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,8 +75,12 @@ public class TopAlbumsListFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // We are getting arguments from the tags fragment key is Tag defined in Nav component
-        mTag = getArguments().getString("tag");
-        Log.i(TAG, "onViewCreated() "+"mTag: "+mTag);
+        if(! Utils.isLandscape){
+            mTag = getArguments().getString("tag");
+            Log.i(TAG, "onViewCreated() "+"mTag: "+mTag);
+        }else{
+            mTag = " ";
+        }
         // Build recycler view
         buildRecyclerView(view);
     }
@@ -79,9 +88,8 @@ public class TopAlbumsListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
+        TopTagListFragment topTagListFragment = new TopTagListFragment();
+        topTagListFragment.setFragmentCommunicator(this);
     }
 
     private void buildRecyclerView(View view) {
@@ -105,7 +113,7 @@ public class TopAlbumsListFragment extends Fragment {
         });
     }
 
-    private void observeViewModel(AlbumsListViewModel viewModel, String tag) {
+    private void observeViewModel(final AlbumsListViewModel viewModel, final String tag) {
         // Update the list when the data changes
         viewModel.getTopAlbumsListObservable(tag).observe(getViewLifecycleOwner(), new Observer<List<AlbumItem>>() {
             @Override
@@ -118,5 +126,11 @@ public class TopAlbumsListFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void setTag(String tag) {
+        mTag = tag;
+        getAlbumsList();
     }
 }
