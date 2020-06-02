@@ -17,7 +17,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TopAlbumsRepository {
     private TopAlbumsApi mTopAlbumsApi;
@@ -25,18 +24,18 @@ public class TopAlbumsRepository {
     private static final String TAG = "TopAlbumsRepository";
 
     private TopAlbumsRepository() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Utils.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
+        final Retrofit retrofit = RetrofitClient.getRetrofitBuilder();
         mTopAlbumsApi = retrofit.create(TopAlbumsApi.class);
     }
 
-    public synchronized static TopAlbumsRepository getInstance() {
-        if (sTopAlbumsRepository == null) {
-            if (sTopAlbumsRepository == null) {
-                sTopAlbumsRepository = new TopAlbumsRepository();
+    public static TopAlbumsRepository getInstance() {
+        if (sTopAlbumsRepository == null) { //Check for the first time
+            synchronized (TopAlbumsRepository.class) {
+                //Check for the second time.
+                // if there is no instance available... create new one
+                if (sTopAlbumsRepository == null) {
+                    sTopAlbumsRepository = new TopAlbumsRepository();
+                }
             }
         }
         Log.i(TAG, "TopAlbumsRepository getInstance() ");

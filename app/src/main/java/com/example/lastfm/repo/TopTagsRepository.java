@@ -17,7 +17,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 // This class will provide live data to Model View by interacting with API
 public class TopTagsRepository {
@@ -26,44 +25,45 @@ public class TopTagsRepository {
     private static final String TAG = "TopTagsRepository";
 
     private TopTagsRepository() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Utils.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
+        final Retrofit retrofit = RetrofitClient.getRetrofitBuilder();
         mTopTagsApi = retrofit.create(TopTagsApi.class);
     }
 
-    public synchronized static TopTagsRepository getInstance() {
-        if (sTopTagsRepository == null) {
-            if (sTopTagsRepository == null) {
-                sTopTagsRepository = new TopTagsRepository();
+    public static TopTagsRepository getInstance() {
+        if (sTopTagsRepository == null) { //Check for the first time
+            synchronized (TopTagsRepository.class) {
+                //Check for the second time.
+                // if there is no instance available... create new one
+                if (sTopTagsRepository == null) {
+                    sTopTagsRepository = new TopTagsRepository();
+                }
             }
         }
-        Log.i(TAG,"TopTagsRepository getInstance() ");
+        Log.i(TAG, "TopTagsRepository getInstance() ");
         return sTopTagsRepository;
     }
 
     public LiveData<List<TagItem>> getTopTagsList() {
         final MutableLiveData<List<TagItem>> tagItems = new MutableLiveData<>();
 
-        final Call<TopTagsResponse> call = mTopTagsApi.getTopTags("tag.getTopTags",Utils.API_KEY,Utils.FORMAT);
+        final Call<TopTagsResponse> call = mTopTagsApi.getTopTags("tag.getTopTags", Utils.API_KEY, Utils.FORMAT);
         call.enqueue(new Callback<TopTagsResponse>() {
             @Override
             public void onResponse(Call<TopTagsResponse> call, Response<TopTagsResponse> response) {
-                if(!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     // If response is not successful
-                    Log.i(TAG,"onResponse() not Successful"+response.code());
+                    Log.i(TAG, "onResponse() not Successful" + response.code());
                     return;
                 }
-                Log.i(TAG,"onResponse() Successful");
+                Log.i(TAG, "onResponse() Successful");
                 TopTagsResponse topTagsResponse = response.body();
                 Toptags toptags = topTagsResponse.getToptags();
                 tagItems.setValue(toptags.getTag());
             }
+
             @Override
             public void onFailure(Call<TopTagsResponse> call, Throwable t) {
-                Log.i(TAG,"onFailure()"+t.getMessage());
+                Log.i(TAG, "onFailure()" + t.getMessage());
                 tagItems.setValue(null);
             }
         });
