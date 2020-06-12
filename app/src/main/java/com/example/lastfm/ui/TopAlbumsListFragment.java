@@ -79,7 +79,7 @@ public class TopAlbumsListFragment extends Fragment implements FragmentCommunica
             mTag = getArguments().getString("tag");
             Log.i(TAG, "onViewCreated() "+"mTag: "+mTag);
         }else{
-            mTag = " ";
+            mTag = "";
         }
         // Build recycler view
         buildRecyclerView(view);
@@ -132,5 +132,28 @@ public class TopAlbumsListFragment extends Fragment implements FragmentCommunica
     public void setTag(String tag) {
         mTag = tag;
         getAlbumsList();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        // Save UI state changes to the savedInstanceState.
+        if(Utils.isLandscape) {
+            if (savedInstanceState != null) {
+                savedInstanceState.putString("TAG", mTag);
+            }
+        }
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        // Restore UI state from the savedInstanceState.
+        if(Utils.isLandscape) {
+            if (savedInstanceState != null) {
+                mTag = savedInstanceState.getString("TAG");
+                getAlbumsList();
+            }
+        }
     }
 }
