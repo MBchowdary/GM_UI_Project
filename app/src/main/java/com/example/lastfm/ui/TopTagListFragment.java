@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lastfm.FragmentCommunicator;
 import com.example.lastfm.R;
-import com.example.lastfm.adapter.ItemTopAlbumsAdapter;
 import com.example.lastfm.adapter.ItemTopTagsAdapter;
 import com.example.lastfm.topTagsModel.TagItem;
 import com.example.lastfm.utils.Utils;
@@ -40,11 +39,8 @@ public class TopTagListFragment extends Fragment {
     // Will be used only in landscape mode
     private static FragmentCommunicator sFragmentCommunicator;
 
-    private OnFragmentInteractionListener mOnFragmentInteractionListener;
-
     public TopTagListFragment(){
         mTopTagItems = new ArrayList<>();
-        mOnFragmentInteractionListener = null;
     }
 
     @Override
@@ -99,9 +95,6 @@ public class TopTagListFragment extends Fragment {
                 // Handel onclick
                 TagItem tagItem = mTopTagItems.get(position);
                 Log.i(TAG,"List view item clicked "+tagItem.getName()+" Position: "+position);
-                if(mOnFragmentInteractionListener != null) {
-                    mOnFragmentInteractionListener.onFragmentInteraction(tagItem.getName());
-                }
 
                 if(Utils.isLandscape){
                     Log.i(TAG,"sFragmentCommunicator Called !!");
@@ -138,19 +131,13 @@ public class TopTagListFragment extends Fragment {
         });
     }
 
-    public interface OnFragmentInteractionListener {
-        //To do//
-        void onFragmentInteraction(String tag);
-    }
-
-    public void setOnFragmentInteractionListener(OnFragmentInteractionListener onFragmentInteractionListener){
-        if(mOnFragmentInteractionListener == null){
-            mOnFragmentInteractionListener = onFragmentInteractionListener;
-            Log.i(TAG,"setOnFragmentInteractionListener set ");
-        }
-    }
-
     public void setFragmentCommunicator(FragmentCommunicator fragmentCommunicator){
         sFragmentCommunicator = fragmentCommunicator;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        sFragmentCommunicator = null;
     }
 }
